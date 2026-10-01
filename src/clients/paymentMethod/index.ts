@@ -13,6 +13,7 @@ import get from './get';
 import type { MercadoPagoConfig } from '@src/mercadoPagoConfig';
 import type { PaymentMethodResponse } from './get/types';
 import type { Options } from '@src/types';
+import { withRequestOptions } from '@utils/requestOptions';
 
 /**
  * Client facade for querying available MercadoPago payment methods.
@@ -41,7 +42,7 @@ export class PaymentMethod {
 	 */
 	get(paymentMethodsGetOptions: {requestOptions?: Options;} = {}): Promise<PaymentMethodResponse[]> {
 		const { requestOptions } =  paymentMethodsGetOptions;
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return get({ config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return get({ config });
 	}
 }

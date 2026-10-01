@@ -19,6 +19,7 @@ import type { MerchantOrderCreateData } from './create/types';
 import type { MerchantOrderUpdateData } from './update/types';
 import type { MerchantOrderSearchData, MerchantOrderSearchResultsPage } from './search/types';
 import type { MerchantOrderGetData } from './get/types';
+import { withRequestOptions } from '@utils/requestOptions';
 
 /**
  * Client facade for MercadoPago Merchant Order operations.
@@ -42,8 +43,8 @@ export class MerchantOrder {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/merchantOrder/create.ts Usage Example }.
 	 */
 	create({ body, requestOptions }: MerchantOrderCreateData): Promise<MerchantOrderResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return create({ body, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return create({ body, config });
 	}
 
 	/**
@@ -52,8 +53,8 @@ export class MerchantOrder {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/merchantOrder/get.ts Usage Example }.
 	 */
 	get({ merchantOrderId, requestOptions }: MerchantOrderGetData): Promise<MerchantOrderResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return get({ merchantOrderId, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return get({ merchantOrderId, config });
 	}
 
 	/**
@@ -62,8 +63,8 @@ export class MerchantOrder {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/merchantOrder/update.ts Usage Example }.
 	 */
 	update({ merchantOrderId, body, requestOptions }: MerchantOrderUpdateData): Promise<MerchantOrderResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return update({ merchantOrderId, body, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return update({ merchantOrderId, body, config });
 	}
 
 	/**
@@ -73,7 +74,7 @@ export class MerchantOrder {
 	 */
 	search(merchantOrderSearchOptions: MerchantOrderSearchData = {}): Promise<MerchantOrderSearchResultsPage> {
 		const { options, requestOptions } = merchantOrderSearchOptions;
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return search({ options, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return search({ options, config });
 	}
 }

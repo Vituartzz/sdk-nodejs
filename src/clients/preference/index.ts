@@ -20,6 +20,7 @@ import type { PreferenceUpdateData } from './update/types';
 import type { PreferenceSearchData, PreferenceSearchResponse } from './search/types';
 import type { PreferenceResponse } from './commonTypes';
 import type { PreferenceCreateData } from './create/types';
+import { withRequestOptions } from '@utils/requestOptions';
 
 /**
  * Client for managing Checkout Pro payment preferences.
@@ -43,8 +44,8 @@ export class Preference {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/preference/get.ts Usage Example }.
 	 */
 	get({ preferenceId, requestOptions }: PreferenceGetData): Promise<PreferenceResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return get({ id: preferenceId, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return get({ id: preferenceId, config });
 	}
 
 	/**
@@ -53,8 +54,8 @@ export class Preference {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/preference/create.ts Usage Example }.
 	 */
 	create({ body, requestOptions }: PreferenceCreateData): Promise<PreferenceResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return create({ body, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return create({ body, config });
 	}
 
 	/**
@@ -63,8 +64,8 @@ export class Preference {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/preference/update.ts Usage Example }.
 	 */
 	update({ id, updatePreferenceRequest, requestOptions }: PreferenceUpdateData): Promise<PreferenceResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return update({ id, updatePreferenceRequest, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return update({ id, updatePreferenceRequest, config });
 	}
 
 	/**
@@ -74,8 +75,8 @@ export class Preference {
 	 */
 	search(preferenceSearchData: PreferenceSearchData = {}): Promise<PreferenceSearchResponse> {
 		const { options, requestOptions } = preferenceSearchData;
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return search({ options, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return search({ options, config });
 	}
 
 }

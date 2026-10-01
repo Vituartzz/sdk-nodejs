@@ -18,6 +18,7 @@ import type { OAuthCreateData } from './create/types';
 import type { OAuthGetAuthorizationURLData } from './getAuthorizationURL/types';
 import type { OAuthRefreshData } from './refresh/types';
 import type { OAuthResponse } from './commonTypes';
+import { withRequestOptions } from '@utils/requestOptions';
 
 /**
  * Client facade for MercadoPago OAuth operations.
@@ -45,8 +46,8 @@ export class OAuth {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/oauth/create.ts Usage Example }.
 	 */
 	create({ body, requestOptions }: OAuthCreateData): Promise<OAuthResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return create({ body, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return create({ body, config });
 	}
 
 	/**
@@ -58,8 +59,8 @@ export class OAuth {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/oauth/refresh.ts Usage Example }.
 	 */
 	refresh({ body, requestOptions }: OAuthRefreshData): Promise<OAuthResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return refresh({ body, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return refresh({ body, config });
 	}
 
 	/**

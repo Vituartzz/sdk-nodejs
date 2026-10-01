@@ -11,6 +11,7 @@ import get from './get';
 
 import type { UserGetData, UserResponse } from './get/types';
 import type { MercadoPagoConfig } from '@src/mercadoPagoConfig';
+import { withRequestOptions } from '@utils/requestOptions';
 
 /**
  * Client facade for retrieving the authenticated MercadoPago user profile.
@@ -39,7 +40,7 @@ export class User {
 	 */
 	get(userGetData: UserGetData = {}): Promise<UserResponse> {
 		const { requestOptions } =  userGetData;
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return get({ config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return get({ config });
 	}
 }

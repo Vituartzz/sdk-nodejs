@@ -12,6 +12,7 @@ import list from './list';
 
 import type { MercadoPagoConfig } from '@src/mercadoPagoConfig';
 import type { IdentificationTypeResponse, IdentificationTypeListData } from './list/types';
+import { withRequestOptions } from '@utils/requestOptions';
 
 /**
  * Client facade for querying accepted identification document types.
@@ -37,7 +38,7 @@ export class IdentificationType {
 	 */
 	list(identificationTypeListOptions: IdentificationTypeListData = {} as IdentificationTypeListData): Promise<IdentificationTypeResponse[]> {
 		const { requestOptions } =  identificationTypeListOptions;
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return list({ config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return list({ config });
 	}
 }

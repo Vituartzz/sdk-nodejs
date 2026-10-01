@@ -32,6 +32,7 @@ import type {
 	PaymentIntentResponse,
 	PaymentIntentStatusResponse,
 } from './commonTypes';
+import { withRequestOptions } from '@utils/requestOptions';
 
 /**
  * Client facade for MercadoPago Point Integration API operations.
@@ -59,8 +60,8 @@ export class Point {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/point/createPaymentIntent.ts Usage Example }.
 	 */
 	createPaymentIntent({ device_id, request, requestOptions }: PointCreatePaymentIntentData): Promise<PaymentIntentResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return createPaymentIntent({ device_id, request, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return createPaymentIntent({ device_id, request, config });
 	}
 
 	/**
@@ -69,8 +70,8 @@ export class Point {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/point/searchPaymentIntent.ts Usage Example }.
 	 */
 	searchPaymentIntent({ payment_intent_id, requestOptions }: PointSearchPaymentIntentData): Promise<PaymentIntentResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return searchPaymentIntent({ payment_intent_id: payment_intent_id,config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return searchPaymentIntent({ payment_intent_id: payment_intent_id,config });
 	}
 
 	/**
@@ -81,8 +82,8 @@ export class Point {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/point/cancelPaymentIntent.ts Usage Example }.
 	 */
 	cancelPaymentIntent({ device_id, payment_intent_id, requestOptions }: PointCancelPaymentIntentData): Promise<CancelPaymentIntentResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return cancelPaymentIntent({ device_id,payment_intent_id,config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return cancelPaymentIntent({ device_id,payment_intent_id,config });
 	}
 
 	/**
@@ -95,8 +96,8 @@ export class Point {
 	 */
 	getPaymentIntentList(pointGetPaymentIntentListOptions: PointGetPaymentIntentListData = {}): Promise<GetPaymentIntentListResponse> {
 		const { body, requestOptions } = pointGetPaymentIntentListOptions;
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return getPaymentIntentList({ options: body?.options,config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return getPaymentIntentList({ options: body?.options,config });
 	}
 
 	/**
@@ -105,8 +106,8 @@ export class Point {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/point/getPaymentIntentStatus.ts Usage Example }.
 	 */
 	getPaymentIntentStatus({ payment_intent_id, requestOptions }: PointGetPaymentIntentStatusData): Promise<PaymentIntentStatusResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return getPaymentIntentStatus({ payment_intent_id, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return getPaymentIntentStatus({ payment_intent_id, config });
 	}
 
 	/**
@@ -117,8 +118,8 @@ export class Point {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/point/getDevices.ts Usage Example }.
 	 */
 	getDevices({ request, requestOptions }: PointGetDevicesData): Promise<GetDevicesResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return getDevices({ options: request?.options, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return getDevices({ options: request?.options, config });
 	}
 
 	/**
@@ -130,7 +131,7 @@ export class Point {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/point/changeDeviceOperatingMode.ts Usage Example }.
 	 */
 	changeDeviceOperatingMode({ device_id, request, requestOptions }: PointChangeDeviceOperatingModeData): Promise<ChangeDeviceOperatingModeResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return changeDeviceOperatingMode({ device_id, request ,config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return changeDeviceOperatingMode({ device_id, request ,config });
 	}
 }

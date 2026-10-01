@@ -15,6 +15,7 @@ import type { InvoiceGetData } from './get/types';
 import type { InvoiceSearchData, InvoiceSearchResponse } from './search/types';
 
 import type { MercadoPagoConfig } from '@src/mercadoPagoConfig';
+import { withRequestOptions } from '@utils/requestOptions';
 
 /**
  * Client facade for MercadoPago subscription invoice operations.
@@ -36,8 +37,8 @@ export class Invoice {
 	 * @see {@link https://github.com/mercadopago/sdk-nodejs/blob/master/src/examples/invoice/get.ts Usage Example }.
 	 */
 	get({ id, requestOptions }: InvoiceGetData): Promise<InvoiceResponse> {
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return get({ id, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return get({ id, config });
 	}
 
 	/**
@@ -49,7 +50,7 @@ export class Invoice {
 	 */
 	search(ivoicesSearchOptions: InvoiceSearchData = {}): Promise<InvoiceSearchResponse> {
 		const { options, requestOptions } = ivoicesSearchOptions;
-		this.config.options = { ...this.config.options, ...requestOptions };
-		return search({ options, config: this.config });
+		const config = withRequestOptions(this.config, requestOptions);
+		return search({ options, config });
 	}
 }
